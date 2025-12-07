@@ -1,17 +1,13 @@
-| Discord | Twitter |
-| --- | --- |
-| [![badge-discord](https://img.shields.io/discord/629491597070827530?logo=discord)](https://discord.com/channels/629491597070827530/1063139826636963931) | [![Twitter Follow](https://img.shields.io/twitter/follow/kuzminki_lib?label=follow&style=flat&logo=twitter&color=brightgreen)](https://twitter.com/kuzminki_lib) |
+# slinq-zio-http-demo
 
-# kuzminki-zio-http-demo
-
-A comprehensive demonstration REST API showcasing [Kuzminki](https://github.com/karimagnusson/kuzminki-zio-2), a type-safe SQL query builder for PostgreSQL, integrated with [ZIO HTTP](https://github.com/zio/zio-http) for building high-performance web services.
+A comprehensive demonstration REST API showcasing [Slinq](https://github.com/karimagnusson/slinq), a type-safe SQL query builder for PostgreSQL, integrated with [ZIO HTTP](https://github.com/zio/zio-http) for building high-performance web services.
 
 ## Tech Stack
 
-- **Scala** 3.3.1
+- **Scala** 3.3.7
 - **ZIO** 2.1.22
 - **ZIO HTTP** 3.7.0
-- **Kuzminki** 0.9.5
+- **Slinq** 0.9.6-RC1
 - **PostgreSQL** (World database sample)
 
 ## Features
@@ -95,7 +91,7 @@ If you use [Postman](https://www.postman.com/), import the collection from `post
 
 ## API Examples
 
-The demo includes various endpoints demonstrating Kuzminki features:
+The demo includes various endpoints demonstrating Slinq features:
 
 - `GET /select/country/:code` - Simple SELECT query
 - `GET /select/cities/:code` - JOIN with custom field names
@@ -109,6 +105,7 @@ See the route files in `src/main/scala/routes/` for complete implementation deta
 
 ## Learn More
 
-- [Kuzminki Documentation](https://github.com/karimagnusson/kuzminki-zio-2)
+- [Slinq Documentation](https://slinq.kotturinn.com/)
+- [Slinq GitHub](https://github.com/karimagnusson/slinq)
 - [ZIO HTTP Documentation](https://zio.dev/zio-http/)
 - [ZIO Documentation](https://zio.dev/)

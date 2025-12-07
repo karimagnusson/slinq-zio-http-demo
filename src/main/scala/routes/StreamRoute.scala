@@ -8,9 +8,8 @@ import zio.http.codec.TextBinaryCodec.fromSchema
 import scala.language.implicitConversions
 import java.sql.Timestamp
 import models.*
-import kuzminki.api.*
-import kuzminki.api.given
-import kuzminki.fn.*
+import slinq.pg.zio.api.{*, given}
+import slinq.pg.fn.*
 
 // Streaming data export and import.
 
@@ -39,7 +38,7 @@ object StreamRoute extends Responses {
 
   val insertCoinPriceStm = sql
     .insert(coinPrice)
-    .cols3(t =>
+    .cols(t =>
       (
         t.coin,
         t.price,
@@ -52,11 +51,11 @@ object StreamRoute extends Responses {
     // Stream database query results as CSV file (import data first using /stream/import)
     Method.GET / "stream" / "export" / string("coin") -> handler { (coin: String, req: Request) =>
       for {
-        env <- ZIO.environment[Kuzminki]
+        env <- ZIO.environment[SlinqPg]
 
         stream = sql
           .select(coinPrice)
-          .cols3(t =>
+          .cols(t =>
             (
               t.coin,
               Fn.roundStr(t.price, 2),
@@ -106,7 +105,7 @@ object StreamRoute extends Responses {
           .run(
             sql
               .insert(tempCoinPrice)
-              .cols4(t =>
+              .cols(t =>
                 (
                   t.uid,
                   t.coin,
@@ -120,7 +119,7 @@ object StreamRoute extends Responses {
 
         _ <- sql // move data using INSERT from SELECT
           .insert(coinPrice)
-          .cols3(t =>
+          .cols(t =>
             (
               t.coin,
               t.price,
@@ -130,7 +129,7 @@ object StreamRoute extends Responses {
           .fromSelect(
             sql
               .select(tempCoinPrice)
-              .cols3(t =>
+              .cols(t =>
                 (
                   t.coin,
                   t.price,

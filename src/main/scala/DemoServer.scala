@@ -1,14 +1,13 @@
 import zio.*
 import zio.http.*
-import kuzminki.api.*
-import kuzminki.api.{given}
+import slinq.pg.zio.api.{*, given}
 import routes.Routes
 import models.Access
 
 object DemoServer extends ZIOAppDefault {
 
   val dbConfig    = Access.getConfig
-  val dbLayer     = Kuzminki.layer(dbConfig)
+  val dbLayer     = SlinqPg.layer(dbConfig)
   val configLayer = Server.defaultWithPort(9000)
 
   def run =

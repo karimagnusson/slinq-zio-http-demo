@@ -6,9 +6,8 @@ import zio.schema.{DeriveSchema, Schema}
 import zio.schema.codec.JsonCodec.schemaBasedBinaryCodec
 import scala.language.implicitConversions
 import models.*
-import kuzminki.api.*
-import kuzminki.api.given
-import kuzminki.column.TypeCol
+import slinq.pg.zio.api.{*, given}
+import slinq.pg.column.TypeCol
 
 // PostgreSQL array operations with type-safe request handling.
 
@@ -43,7 +42,7 @@ object ArrayRoute extends Responses {
         data <- req.body.to[LangData]
         result <- sql
           .update(countryData)
-          .set(_.langs.addAsc(data.lang)) // addAsc ensures uniqueness and sorts ascending
+          .set(_.langs.addUniqueAsc(data.lang)) // addUniqueAsc ensures uniqueness and sorts ascending
           .where(_.code === data.code)
           .returningJson(t =>
             Seq(

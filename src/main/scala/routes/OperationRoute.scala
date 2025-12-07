@@ -6,8 +6,7 @@ import zio.schema.{DeriveSchema, Schema}
 import zio.schema.codec.JsonCodec.schemaBasedBinaryCodec
 import scala.language.implicitConversions
 import models.*
-import kuzminki.api.*
-import kuzminki.api.given
+import slinq.pg.zio.api.{*, given}
 
 // INSERT, UPDATE, DELETE with type-safe request handling.
 
@@ -38,7 +37,7 @@ object OperationRoute extends Responses {
         data <- req.body.to[TripInsert]
         result <- sql
           .insert(trip)
-          .cols2(t => (
+          .cols(t => (
             t.cityId,
             t.price
           ))

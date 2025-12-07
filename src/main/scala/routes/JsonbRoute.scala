@@ -6,10 +6,9 @@ import zio.schema.{DeriveSchema, Schema}
 import zio.schema.codec.JsonCodec.schemaBasedBinaryCodec
 import scala.language.implicitConversions
 import models.*
-import kuzminki.api.*
-import kuzminki.api.given
-import kuzminki.fn.*
-import kuzminki.column.TypeCol
+import slinq.pg.zio.api.{*, given}
+import slinq.pg.fn.*
+import slinq.pg.column.TypeCol
 
 // JSONB operations with type-safe request handling.
 // JSON operators follow PostgreSQL syntax: -> for object, ->> for text, #>> for deep path.
@@ -110,7 +109,7 @@ object JsonbRoute extends Responses {
           .update(countryData)
           .set(_.data += Jsonb(s"""{"phone": "${data.phone}"}""")) // add field to JSONB object
           .where(_.code === data.code)
-          .returning1(_.data)
+          .returning(_.data)
           .runHeadOpt
       } yield jsonOptResponse(result)
     },
@@ -123,7 +122,7 @@ object JsonbRoute extends Responses {
           .update(countryData)
           .set(_.data -= "phone") // remove field from JSONB object
           .where(_.code === data.code)
-          .returning1(_.data)
+          .returning(_.data)
           .runHeadOpt
       } yield jsonOptResponse(result)
     }

@@ -7,9 +7,8 @@ import zio.schema.{DeriveSchema, Schema}
 import zio.schema.codec.JsonCodec.schemaBasedBinaryCodec
 import scala.language.implicitConversions
 import models.*
-import kuzminki.api.*
-import kuzminki.api.given
-import kuzminki.fn.*
+import slinq.pg.zio.api.{*, given}
+import slinq.pg.fn.*
 
 // Type-safe queries with case classes using zio-schema for serialization.
 
@@ -48,7 +47,7 @@ object TypeRoute extends Responses {
       (code: String, req: Request) =>
         sql
           .select(country)
-          .cols3(t =>
+          .cols(t =>
             (
               t.code,
               t.name,
@@ -56,31 +55,20 @@ object TypeRoute extends Responses {
             )
           )
           .where(_.code === code.toUpperCase)
-          .runHeadType[CountryType] // map result to case class
+          .runHeadAs[CountryType] // map result to case class
           .map(rsp => Response.json(rsp.toJson))
     },
 
     // INSERT with type-safe input and output
     Method.POST / "type" / "insert" / "trip" -> handler { (req: Request) =>
       for {
-        data <- req.body.to[TripDataType] // deserialize JSON to case class
+        data <- req.body.to[TripDataType]
         result <- sql
           .insert(trip)
-          .cols2(t =>
-            (
-              t.cityId,
-              t.price
-            )
-          )
-          .valuesType(data) // use case class for values
-          .returning3(t =>
-            (
-              t.id,
-              t.cityId,
-              t.price
-            )
-          )
-          .runHeadType[TripType] // map result to case class
+          .cols(t => (t.cityId, t.price))
+          .values((data.cityId, data.price))
+          .returning(t => (t.id, t.cityId, t.price))
+          .runHeadAs[TripType]
       } yield Response.json(result.toJson)
     },
 
@@ -92,14 +80,14 @@ object TypeRoute extends Responses {
           .update(trip)
           .set(_.price ==> data.price)
           .where(_.id === data.id)
-          .returning3(t =>
+          .returning(t =>
             (
               t.id,
               t.cityId,
               t.price
             )
           )
-          .runHeadType[TripType] // map result to case class
+          .runHeadAs[TripType] // map result to case class
       } yield Response.json(result.toJson)
     }
   )

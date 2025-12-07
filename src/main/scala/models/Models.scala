@@ -1,7 +1,6 @@
 import java.util.UUID
 import java.sql.Timestamp
-import kuzminki.api.*
-import kuzminki.api.given
+import slinq.pg.zio.api.{*, given}
 
 
 package object models {

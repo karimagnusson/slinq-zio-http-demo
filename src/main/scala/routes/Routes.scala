@@ -6,7 +6,7 @@ import zio.*
 import zio.stream.ZStream
 import zio.http.*
 import scala.language.implicitConversions
-import kuzminki.api.Jsonb
+import slinq.pg.zio.api.Jsonb
 
 import java.io.{CharArrayWriter, PrintWriter}
 
