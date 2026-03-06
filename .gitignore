@@ -16,3 +16,4 @@ generated/
 project/project/
 project/target/
 src/main/resources/local.conf
+claude.md

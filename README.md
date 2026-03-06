@@ -7,7 +7,7 @@ A comprehensive demonstration REST API showcasing [Slinq](https://github.com/kar
 - **Scala** 3.3.7
 - **ZIO** 2.1.22
 - **ZIO HTTP** 3.7.0
-- **Slinq** 0.9.6-RC1
+- **Slinq** 0.9.6-RC2
 - **PostgreSQL** (World database sample)
 
 ## Features
